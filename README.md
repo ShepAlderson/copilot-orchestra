@@ -269,7 +269,7 @@ Users should be able to register, login, and access protected routes.
     - Add email validation and uniqueness constraint
     - Write comprehensive User model tests
     ```
-- **You make the commit and tell `Conductor` to continue `Proceed to next phase`.**
+- **You make the commit and tell `Conductor` to continue with `Proceed to next phase`.**
 
 **4. Remaining Phases**
 The cycle repeats for each remaining phase:
