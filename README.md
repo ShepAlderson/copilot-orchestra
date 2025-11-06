@@ -227,7 +227,7 @@ Here's a realistic scenario demonstrating the complete workflow:
 
 **Initial Request:**
 ```
-@Conductor I need to add JWT-based user authentication to my Express API. 
+I need to add JWT-based user authentication to my Express API. 
 Users should be able to register, login, and access protected routes.
 ```
 
