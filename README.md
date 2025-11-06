@@ -53,7 +53,7 @@ The Orchestra system consists of four specialized agents:
 
 ## Prerequisites
 
-Before using GitHub Copilot Orchestra, ensure you have:
+Before using the GitHub Copilot Orchestra, ensure you have:
 
 - **VS Code Insiders** - Required for custom chat modes feature that enables subagents and handing off to them.
     - Download from: https://code.visualstudio.com/insiders/
