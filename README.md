@@ -35,6 +35,27 @@ The system solves a critical challenge in AI-assisted development: maintaining c
 - **🔌 Framework Integration** - Pre-built guides for top 10 frameworks (React, Django, Node.js, etc.).
 - **💎 Keeps Context Concise** - The majority of the work is done in dedicated subagents, each with its own context window and dedciated prompt. This helps reduce hallucinations as the context window fills up.
 
+## Configuration System
+
+The Orchestra includes a `.roo` configuration directory that provides:
+
+### Mode-Based Rules
+Each agent has a dedicated rules directory for mode-specific behaviors:
+- `rules-Conductor/` - Orchestration modes (strict, rapid, documentation)
+- `rules-planning-subagent/` - Research modes (deep-research, quick-scan)
+- `rules-implement-subagent/` - Implementation modes (strict-tdd, refactor, bugfix)
+- `rules-code-review-subagent/` - Review modes (security-focused, performance-review)
+- `rules-quality-assurance-subagent/` - QA modes (comprehensive-qa, security-audit)
+
+### Local RAG System
+Built-in Retrieval-Augmented Generation system using LlamaIndex:
+- **Docker-based setup** - Ready to deploy with `docker-compose up`
+- **Intelligent querying** - Query project documentation and code context
+- **Agent integration** - All agents can leverage RAG for informed decisions
+- **Local inference** - Uses Ollama for privacy and offline capability
+
+See [.roo/README.md](.roo/README.md) and [.roo/local-rag-llamaindex/README.md](.roo/local-rag-llamaindex/README.md) for details.
+
 ## Architecture Overview
 
 The Orchestra system consists of five specialized agents:

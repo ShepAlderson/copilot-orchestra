@@ -516,3 +516,142 @@ MANDATORY PAUSE POINTS:                    autonomously)          │
 ```
 
 This visual guide helps understand the system's architecture and workflow at a glance!
+
+---
+
+## Configuration System Architecture
+
+### .roo Directory Structure
+
+```
+.roo/
+├── README.md                          # Configuration system overview
+├── rules-Conductor/                   # Conductor mode configurations
+│   ├── README.md
+│   ├── strict-mode.md                 # Extra validation & quality checks
+│   └── rapid-mode.md                  # Streamlined for quick iterations
+├── rules-planning-subagent/           # Planning mode configurations
+│   ├── README.md
+│   └── deep-research-mode.md          # Comprehensive analysis
+├── rules-implement-subagent/          # Implementation mode configurations
+│   ├── README.md
+│   └── strict-tdd-mode.md             # Rigorous test-first discipline
+├── rules-code-review-subagent/        # Review mode configurations
+│   ├── README.md
+│   └── security-focused-mode.md       # Security vulnerability emphasis
+├── rules-quality-assurance-subagent/  # QA mode configurations
+│   └── README.md
+└── local-rag-llamaindex/              # Local RAG system
+    ├── README.md
+    ├── docker-compose.yml
+    ├── start.sh
+    └── app/
+        ├── Dockerfile
+        ├── main.py
+        └── requirements.txt
+```
+
+### Local RAG System Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Orchestra Agents                         │
+│  (Conductor, Planning, Implementation, Review, QA)          │
+└─────────────────────┬───────────────────────────────────────┘
+                      │
+                      │ HTTP Queries
+                      │
+                      ▼
+┌─────────────────────────────────────────────────────────────┐
+│              FastAPI RAG Server (Port 8000)                 │
+│                                                             │
+│  ┌─────────────┐  ┌─────────────┐  ┌──────────────┐      │
+│  │   /ingest   │  │   /query    │  │   /health    │      │
+│  │  Endpoint   │  │  Endpoint   │  │   Endpoint   │      │
+│  └─────────────┘  └─────────────┘  └──────────────┘      │
+└────────┬─────────────────┬──────────────────────────────────┘
+         │                 │
+         ▼                 ▼
+┌──────────────────┐ ┌──────────────────┐
+│   LlamaIndex     │ │  Qdrant Vector   │
+│   RAG Engine     │ │  Database        │
+│                  │ │  (Port 6333)     │
+│  - Indexing      │ │  - Vector Store  │
+│  - Retrieval     │ │  - Similarity    │
+│  - Generation    │ │    Search        │
+└────────┬─────────┘ └──────────────────┘
+         │
+         ▼
+┌──────────────────┐
+│  Ollama LLM      │
+│  (Port 11434)    │
+│                  │
+│  - Mistral       │
+│  - Local         │
+│  - Offline       │
+└──────────────────┘
+```
+
+### Mode Configuration Flow
+
+```
+User Request
+     │
+     ▼
+┌─────────────────┐
+│  Select Mode    │ (e.g., --mode=strict)
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  Load Rules     │ Read .roo/rules-{agent}/{mode}.md
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  Apply Rules    │ Customize agent behavior
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  Execute Task   │ With mode-specific rules
+└─────────────────┘
+```
+
+### RAG Query Flow
+
+```
+Agent Question
+     │
+     ▼
+┌─────────────────┐
+│  POST /query    │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  Embed Query    │ Convert to vector
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  Search Qdrant  │ Find similar chunks
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  Retrieve Docs  │ Top K relevant documents
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  Generate       │ LLM creates answer
+│  Answer         │ with context
+└────────┬────────┘
+         │
+         ▼
+    Response
+    + Sources
+```
+
+---
