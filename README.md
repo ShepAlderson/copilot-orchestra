@@ -2,6 +2,20 @@
 
 > **A multi-agent orchestration system for structured, test-driven software development with AI assistance**
 
+## 📚 Documentation
+
+- **[Quick Start Guide](QUICKSTART.md)** - Get up and running in 5 minutes ⚡
+- **[Architecture & Workflow](ARCHITECTURE.md)** - Visual diagrams and detailed flow 📊
+- **[FAQ](FAQ.md)** - Frequently asked questions ❓
+- **[Troubleshooting](TROUBLESHOOTING.md)** - Common issues and solutions 🔧
+- **[Examples](examples/)** - Real-world usage examples 💡
+- **[Templates](templates/)** - Custom agent configurations 🎨
+- **[Integration Guides](integrations/)** - Framework-specific guides 🔌
+- **[Tools](tools/)** - Automation scripts and utilities 🛠️
+- **[Contributing](CONTRIBUTING.md)** - How to contribute 🤝
+- **[Changelog](CHANGELOG.md)** - Version history and updates 📝
+- **[Improvements](IMPROVEMENTS.md)** - Planned features and enhancements 🚀
+
 ## What is GitHub Copilot Orchestra?
 
 The "GitHub Copilot Orchestra" pattern transformed how I build with AI agents. Instead of juggling context and constantly switching modes, the Orchestra pattern provides a structured workflow that coordinates specialized AI subagents through a complete AI development cycle for adding a feature or making a change: planning → implementation → review → commit.
@@ -16,6 +30,9 @@ The system solves a critical challenge in AI-assisted development: maintaining c
 - **📋 Documentation Trail** - Comprehensive plan files and phase completion records create an audit trail for reviewing all work completed.
 - **⏸️ Mandatory Pause Points** - Built-in stops for plan approval and phase commits keep you in control of the development process.
 - **🔄 Iterative Cycles** - Each implementation phase follows the complete cycle: implement → review → commit before proceeding to the next phase.
+- **💎 Keeps Context Concise** - The majority of the work is done in dedicated subagents, each with its own context window and dedicated prompt. This helps reduce hallucinations as the context window fills up.
+- **🛠️ Automation Tools** - Built-in tools for setup, error recovery, and architecture documentation.
+- **🔌 Framework Integration** - Pre-built guides for top 10 frameworks (React, Django, Node.js, etc.).
 - **💎 Keeps Context Concise** - The majority of the work is done in dedicated subagents, each with its own context window and dedciated prompt. This helps reduce hallucinations as the context window fills up.
 
 ## Architecture Overview
@@ -133,6 +150,25 @@ The GitHub Copilot Orchestra uses custom chat modes in VSCode Insiders to enable
         - Final task completion summaries (`<task-name>-complete.md`)
 
 **No Additional Configuration Required** - The agents will appear in the GitHub Copilot Chat interface automatically.
+
+### Quick Setup with Tools
+
+For an automated setup experience, use the included Setup Wizard:
+
+```bash
+# Interactive setup wizard
+node tools/setup-wizard.js
+```
+
+This wizard will:
+- Detect your project type
+- Check prerequisites
+- Set up directories
+- Configure testing
+- Create documentation
+- Run health checks
+
+See [Tools Documentation](tools/README.md) for more automation options.
 
 ## Using the Conductor Agent
 
@@ -446,5 +482,33 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+## Additional Resources
+
+### Getting Help
+
+- 📖 **[Quick Start Guide](QUICKSTART.md)** - New to the system? Start here!
+- 🔧 **[Troubleshooting Guide](TROUBLESHOOTING.md)** - Encountering issues? Check here first
+- 💡 **[Examples Directory](examples/)** - Learn from real-world scenarios
+- 🎨 **[Templates](templates/)** - Customize agents for your needs
+
+### Community
+
+- 🐛 **Bug Reports**: [Open an issue](https://github.com/killo431/copilot-orchestra/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/killo431/copilot-orchestra/discussions)
+- 🤝 **Contributing**: See [CONTRIBUTING.md](CONTRIBUTING.md)
+- 📋 **Roadmap**: Check [IMPROVEMENTS.md](IMPROVEMENTS.md) for planned features
+
+### Version Information
+
+- 📝 **[Changelog](CHANGELOG.md)** - Track updates and changes
+- 🏷️ **Current Version**: 1.0.0
+- 🔄 **Update Frequency**: Regular improvements based on community feedback
+
+### Related Projects
+
+Interested in AI-assisted development? Check out:
+- [GitHub Copilot](https://github.com/features/copilot) - AI pair programmer
+- [VS Code Insiders](https://code.visualstudio.com/insiders/) - Early access to VS Code features
 
 ---
