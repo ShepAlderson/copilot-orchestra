@@ -1,0 +1,191 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.tabSize": 2,
+  "editor.rulers": [100],
+  "editor.unicodeHighlight.invisibleCharacters": false,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "**/coverage": true,
+    "**/.pytest_cache": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/coverage": true,
+    "**/.pytest_cache": true
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  },
+  "[markdown]": {
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": {
+      "comments": "off",
+      "strings": "off",
+      "other": "off"
+    }
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "python.formatting.provider": "black",
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "python.createEnvironment.trigger": "off",
+  "jest.autoRun": "off",
+  "jest.showCoverageOnLoad": false,
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": true,
+    "plaintext": false,
+    "markdown": true
+  },
+  "github.copilot.advanced": {
+    "debug.overrideEngine": "copilot-chat"
+  },
+  "files.associations": {
+    "*.agent.md": "markdown"
+  },
+  "cSpell.words": [
+    "copilot",
+    "subagent",
+    "Conductor",
+    "Prisma",
+    "fastapi",
+    "sqlalchemy",
+    "alembic",
+    "pytest",
+    "pylint",
+    "uvicorn"
+  ],
+  "gitlens.ai.model": "vscode",
+  "gitlens.ai.vscode.model": "copilot:gpt-4.1",
+  "redhat.telemetry.enabled": true,
+  "chat.tools.terminal.autoReplyToPrompts": true,
+  "chat.tools.global.autoApprove": true,
+  "chat.mcp.assisted.nuget.enabled": true,
+  "inlineChat.enableV2": true,
+  "chat.tools.terminal.autoApprove": {
+    "docker-compose": true,
+    "docker logs": true,
+    "docker exec": true,
+    "docker ps": true,
+    "docker restart": true,
+    "docker stop": true,
+    "docker start": true,
+    "docker rm": true
+  },
+  "chat.instructionsFilesLocations": {
+    ".github/instructions": true
+  },
+  "azureResourceGroups.enableChatStandIn": false,
+  "workbench.editorAssociations": {
+    "*.copilotmd": "vscode.markdown.preview.editor"
+  },
+  "appMap.selectedModel": "copilot:claude-3.5-sonnet",
+  "roo-code-nightly.allowedCommands": [
+    "git log",
+    "git diff",
+    "git show",
+    "*"
+  ],
+  "roo-code-nightly.deniedCommands": [],
+  "IntelligentCodeCompletion.disableLanguages": {
+    "vue": false,
+    "typescript": false,
+    "javascript": false,
+    "python": false,
+    "go": false,
+    "c": false,
+    "c++": false,
+    "shell": false,
+    "bash": false,
+    "batch": false,
+    "lua": false,
+    "java": false,
+    "php": false,
+    "ruby": false
+  },
+  "FunctionQuickCommands.disableLanguages": {
+    "typescript": false,
+    "javascript": false,
+    "python": false,
+    "go": false,
+    "c": false,
+    "c++": false,
+    "lua": false,
+    "java": false,
+    "php": false,
+    "ruby": false
+  },
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"],
+      "env": {
+        "DEFAULT_MINIMUM_TOKENS": ""
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "${workspaceFolder}"]
+    },
+    "sequentialthinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    },
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@0.0.38"]
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"]
+    },
+    "docker": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-docker"]
+    }
+  }
+}

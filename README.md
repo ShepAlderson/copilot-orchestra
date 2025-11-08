@@ -2,6 +2,20 @@
 
 > **A multi-agent orchestration system for structured, test-driven software development with AI assistance**
 
+## 📚 Documentation
+
+- **[Quick Start Guide](QUICKSTART.md)** - Get up and running in 5 minutes ⚡
+- **[Architecture & Workflow](ARCHITECTURE.md)** - Visual diagrams and detailed flow 📊
+- **[FAQ](FAQ.md)** - Frequently asked questions ❓
+- **[Troubleshooting](TROUBLESHOOTING.md)** - Common issues and solutions 🔧
+- **[Examples](examples/)** - Real-world usage examples 💡
+- **[Templates](templates/)** - Custom agent configurations 🎨
+- **[Integration Guides](integrations/)** - Framework-specific guides 🔌
+- **[Tools](tools/)** - Automation scripts and utilities 🛠️
+- **[Contributing](CONTRIBUTING.md)** - How to contribute 🤝
+- **[Changelog](CHANGELOG.md)** - Version history and updates 📝
+- **[Improvements](IMPROVEMENTS.md)** - Planned features and enhancements 🚀
+
 ## What is GitHub Copilot Orchestra?
 
 The "GitHub Copilot Orchestra" pattern transformed how I build with AI agents. Instead of juggling context and constantly switching modes, the Orchestra pattern provides a structured workflow that coordinates specialized AI subagents through a complete AI development cycle for adding a feature or making a change: planning → implementation → review → commit.
@@ -16,18 +30,42 @@ The system solves a critical challenge in AI-assisted development: maintaining c
 - **📋 Documentation Trail** - Comprehensive plan files and phase completion records create an audit trail for reviewing all work completed.
 - **⏸️ Mandatory Pause Points** - Built-in stops for plan approval and phase commits keep you in control of the development process.
 - **🔄 Iterative Cycles** - Each implementation phase follows the complete cycle: implement → review → commit before proceeding to the next phase.
+- **💎 Keeps Context Concise** - The majority of the work is done in dedicated subagents, each with its own context window and dedicated prompt. This helps reduce hallucinations as the context window fills up.
+- **🛠️ Automation Tools** - Built-in tools for setup, error recovery, and architecture documentation.
+- **🔌 Framework Integration** - Pre-built guides for top 10 frameworks (React, Django, Node.js, etc.).
 - **💎 Keeps Context Concise** - The majority of the work is done in dedicated subagents, each with its own context window and dedciated prompt. This helps reduce hallucinations as the context window fills up.
+
+## Configuration System
+
+The Orchestra includes a `.roo` configuration directory that provides:
+
+### Mode-Based Rules
+Each agent has a dedicated rules directory for mode-specific behaviors:
+- `rules-Conductor/` - Orchestration modes (strict, rapid, documentation)
+- `rules-planning-subagent/` - Research modes (deep-research, quick-scan)
+- `rules-implement-subagent/` - Implementation modes (strict-tdd, refactor, bugfix)
+- `rules-code-review-subagent/` - Review modes (security-focused, performance-review)
+- `rules-quality-assurance-subagent/` - QA modes (comprehensive-qa, security-audit)
+
+### Local RAG System
+Built-in Retrieval-Augmented Generation system using LlamaIndex:
+- **Docker-based setup** - Ready to deploy with `docker-compose up`
+- **Intelligent querying** - Query project documentation and code context
+- **Agent integration** - All agents can leverage RAG for informed decisions
+- **Local inference** - Uses Ollama for privacy and offline capability
+
+See [.roo/README.md](.roo/README.md) and [.roo/local-rag-llamaindex/README.md](.roo/local-rag-llamaindex/README.md) for details.
 
 ## Architecture Overview
 
-The Orchestra system consists of four specialized agents:
+The Orchestra system consists of five specialized agents:
 
 ### Conductor Agent
 - `Conductor.agent.md` - Main orchestration agent that manages the complete development cycle.
-    - Coordinates Planning, Implementation, and Code Review subagents.
+    - Coordinates Planning, Implementation, Code Review, and Quality Assurance subagents.
     - Generates the plan to be followed.
     - Handles user interactions and mandatory pause points.
-    - Enforces the Planning → Implementation → Review → Commit cycle.
+    - Enforces the Planning → Implementation → Review → QA → Commit cycle.
     - Uses Claude Sonnet 4.5 by default.
 
 ### Planning Subagent
@@ -45,10 +83,19 @@ The Orchestra system consists of four specialized agents:
     - Uses Claude Haiku 4.5 by default for premium request efficiency.
 
 ### Code Review Subagent
-- **`code-review-subagent.agent.md`** - Quality assurance specialist.
+- **`code-review-subagent.agent.md`** - Code review specialist.
     - Reviews uncommitted code changes using git to identify new code.
     - Validates test coverage and code quality.
     - Returns review results back to Conductor (`APPROVED/NEEDS_REVISION/FAILED`).
+    - Uses Claude Sonnet 4.5 by default.
+
+### Quality Assurance Subagent
+- **`quality-assurance-subagent.agent.md`** - Quality assurance and security specialist.
+    - Validates code quality (linting, formatting, style).
+    - Checks for security vulnerabilities.
+    - Analyzes test coverage metrics.
+    - Assesses performance implications.
+    - Returns QA results back to Conductor (`PASS/ADVISORY/FAIL`).
     - Uses Claude Sonnet 4.5 by default.
 
 ## Prerequisites
@@ -68,11 +115,35 @@ Before using the GitHub Copilot Orchestra, ensure you have:
 
 ## Installation
 
-### Initial Setup
+### Quick Start with VS Code Workspace (Recommended)
+
+The easiest way to get started is to import the complete workspace configuration:
+
+```bash
+# Clone the repository
+git clone https://github.com/killo431/copilot-orchestra.git
+cd copilot-orchestra
+
+# Open the workspace in VS Code Insiders
+code-insiders copilot-orchestra.code-workspace
+```
+
+This automatically imports:
+- All agent files from `.github/agents/`
+- VS Code settings and editor configurations
+- Recommended extensions
+- Debug launch configurations
+- All templates, examples, and documentation
+
+**That's it!** The Conductor agent will be available in the GitHub Copilot Chat dropdown.
+
+### Manual Setup
+
+If you prefer manual setup or want to copy agents to your own project:
 
 1. **Clone or Download the Repository**
    ```bash
-   git clone https://github.com/ShepAlderson/copilot-orchestra.git
+   git clone https://github.com/killo431/copilot-orchestra.git
    cd copilot-orchestra
    ```
    
@@ -94,16 +165,20 @@ The GitHub Copilot Orchestra uses custom chat modes in VSCode Insiders to enable
     code-insiders .
     ```
 
-2. **Locate Agent Files** - The repository includes four `.agent.md` files in the root directory:
+2. **Locate Agent Files** - The repository includes agent files in the `.github/agents/` directory:
     - `Conductor.agent.md`
     - `planning-subagent.agent.md`
     - `implement-subagent.agent.md`
     - `code-review-subagent.agent.md`
+    - `quality-assurance-subagent.agent.md`
 
 3. **Install the agent files**
-    - **Copy the `.agent.md` files to your project's root directory**
+    - **Copy the `.github/agents/` directory to your project**
         - Great for sharing among a team.
         - Scoped to the individual project.
+        ```bash
+        cp -r copilot-orchestra/.github/agents /path/to/your/project/.github/
+        ```
     - **Install the custom agents in your User Data for use in all workspaces**
         - Allows the custom agents to work in any project you open with VSCode Insiders.
         - Copy files to the User Data location:
@@ -119,7 +194,8 @@ The GitHub Copilot Orchestra uses custom chat modes in VSCode Insiders to enable
                 - planning-subagent
                 - implement-subagent
                 - code-review-subagent
-            - Copy and paste the context of the agent file from this repo into the file that opens in VSCode.
+                - quality-assurance-subagent
+            - Copy and paste the context of the agent file from `.github/agents/` in this repo into the file that opens in VSCode.
 
 4. Create the Plans Directory
     - The Conductor agent generates documentation files to track progress. Create the `plans/` directory (or the Conductor will make it when it writes out the first plan file):
@@ -133,6 +209,25 @@ The GitHub Copilot Orchestra uses custom chat modes in VSCode Insiders to enable
         - Final task completion summaries (`<task-name>-complete.md`)
 
 **No Additional Configuration Required** - The agents will appear in the GitHub Copilot Chat interface automatically.
+
+### Quick Setup with Tools
+
+For an automated setup experience, use the included Setup Wizard:
+
+```bash
+# Interactive setup wizard
+node tools/setup-wizard.js
+```
+
+This wizard will:
+- Detect your project type
+- Check prerequisites
+- Set up directories
+- Configure testing
+- Create documentation
+- Run health checks
+
+See [Tools Documentation](tools/README.md) for more automation options.
 
 ## Using the Conductor Agent
 
@@ -446,5 +541,33 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+## Additional Resources
+
+### Getting Help
+
+- 📖 **[Quick Start Guide](QUICKSTART.md)** - New to the system? Start here!
+- 🔧 **[Troubleshooting Guide](TROUBLESHOOTING.md)** - Encountering issues? Check here first
+- 💡 **[Examples Directory](examples/)** - Learn from real-world scenarios
+- 🎨 **[Templates](templates/)** - Customize agents for your needs
+
+### Community
+
+- 🐛 **Bug Reports**: [Open an issue](https://github.com/killo431/copilot-orchestra/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/killo431/copilot-orchestra/discussions)
+- 🤝 **Contributing**: See [CONTRIBUTING.md](CONTRIBUTING.md)
+- 📋 **Roadmap**: Check [IMPROVEMENTS.md](IMPROVEMENTS.md) for planned features
+
+### Version Information
+
+- 📝 **[Changelog](CHANGELOG.md)** - Track updates and changes
+- 🏷️ **Current Version**: 1.0.0
+- 🔄 **Update Frequency**: Regular improvements based on community feedback
+
+### Related Projects
+
+Interested in AI-assisted development? Check out:
+- [GitHub Copilot](https://github.com/features/copilot) - AI pair programmer
+- [VS Code Insiders](https://code.visualstudio.com/insiders/) - Early access to VS Code features
 
 ---
