@@ -149,11 +149,13 @@ class ErrorRecoverySystem {
       'Conductor.agent.md',
       'planning-subagent.agent.md',
       'implement-subagent.agent.md',
-      'code-review-subagent.agent.md'
+      'code-review-subagent.agent.md',
+      'quality-assurance-subagent.agent.md'
     ];
     
+    const agentsDir = path.join(this.rootDir, '.github', 'agents');
     const missing = agentFiles.filter(file => 
-      !fs.existsSync(path.join(this.rootDir, file))
+      !fs.existsSync(path.join(agentsDir, file))
     );
     
     if (missing.length > 0) {
@@ -161,7 +163,7 @@ class ErrorRecoverySystem {
         id: 'missing_agent_files',
         severity: 'high',
         title: `Missing agent files (${missing.length})`,
-        description: `Required agent files not found: ${missing.join(', ')}`,
+        description: `Required agent files not found in .github/agents/: ${missing.join(', ')}`,
         fixable: true,
         fix: () => this.fixMissingAgents(missing)
       });
@@ -169,7 +171,7 @@ class ErrorRecoverySystem {
     
     // Validate agent file format
     agentFiles.forEach(file => {
-      const filePath = path.join(this.rootDir, file);
+      const filePath = path.join(agentsDir, file);
       if (fs.existsSync(filePath)) {
         const content = fs.readFileSync(filePath, 'utf8');
         if (!content.startsWith('---')) {
@@ -356,7 +358,7 @@ class ErrorRecoverySystem {
     console.log('\nAgent files are missing. These should be copied from the Orchestra repository.');
     console.log('Visit: https://github.com/killo431/copilot-orchestra');
     console.log('\nYou can:');
-    console.log('1. Clone the repository and copy .agent.md files');
+    console.log('1. Clone the repository and copy .github/agents/ directory');
     console.log('2. Install agents globally in VS Code Insiders User Data directory');
   }
 

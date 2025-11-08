@@ -94,11 +94,35 @@ Before using the GitHub Copilot Orchestra, ensure you have:
 
 ## Installation
 
-### Initial Setup
+### Quick Start with VS Code Workspace (Recommended)
+
+The easiest way to get started is to import the complete workspace configuration:
+
+```bash
+# Clone the repository
+git clone https://github.com/killo431/copilot-orchestra.git
+cd copilot-orchestra
+
+# Open the workspace in VS Code Insiders
+code-insiders copilot-orchestra.code-workspace
+```
+
+This automatically imports:
+- All agent files from `.github/agents/`
+- VS Code settings and editor configurations
+- Recommended extensions
+- Debug launch configurations
+- All templates, examples, and documentation
+
+**That's it!** The Conductor agent will be available in the GitHub Copilot Chat dropdown.
+
+### Manual Setup
+
+If you prefer manual setup or want to copy agents to your own project:
 
 1. **Clone or Download the Repository**
    ```bash
-   git clone https://github.com/ShepAlderson/copilot-orchestra.git
+   git clone https://github.com/killo431/copilot-orchestra.git
    cd copilot-orchestra
    ```
    
@@ -120,16 +144,20 @@ The GitHub Copilot Orchestra uses custom chat modes in VSCode Insiders to enable
     code-insiders .
     ```
 
-2. **Locate Agent Files** - The repository includes four `.agent.md` files in the root directory:
+2. **Locate Agent Files** - The repository includes agent files in the `.github/agents/` directory:
     - `Conductor.agent.md`
     - `planning-subagent.agent.md`
     - `implement-subagent.agent.md`
     - `code-review-subagent.agent.md`
+    - `quality-assurance-subagent.agent.md`
 
 3. **Install the agent files**
-    - **Copy the `.agent.md` files to your project's root directory**
+    - **Copy the `.github/agents/` directory to your project**
         - Great for sharing among a team.
         - Scoped to the individual project.
+        ```bash
+        cp -r copilot-orchestra/.github/agents /path/to/your/project/.github/
+        ```
     - **Install the custom agents in your User Data for use in all workspaces**
         - Allows the custom agents to work in any project you open with VSCode Insiders.
         - Copy files to the User Data location:
@@ -145,7 +173,8 @@ The GitHub Copilot Orchestra uses custom chat modes in VSCode Insiders to enable
                 - planning-subagent
                 - implement-subagent
                 - code-review-subagent
-            - Copy and paste the context of the agent file from this repo into the file that opens in VSCode.
+                - quality-assurance-subagent
+            - Copy and paste the context of the agent file from `.github/agents/` in this repo into the file that opens in VSCode.
 
 4. Create the Plans Directory
     - The Conductor agent generates documentation files to track progress. Create the `plans/` directory (or the Conductor will make it when it writes out the first plan file):
