@@ -4,7 +4,51 @@ This directory contains fully working tools to enhance your Orchestra workflow.
 
 ## Available Tools
 
-### 1. 🎨 Blueprint Generator (`blueprint-generator.js`)
+### 1. 🎯 Project Initialization (`project-init.js`) **NEW**
+
+Interactive wizard for initializing new projects with architecture-first approach.
+
+**Features:**
+- Gathers project requirements interactively
+- Captures architecture decisions, API contracts, database schema
+- Generates PROJECT-BLUEPRINT.md with complete technical specification
+- Creates project structure with proper scaffolding
+- Generates Docker, CI/CD, and environment configuration files
+- Initializes Git repository with initial commit
+
+**Usage:**
+```bash
+# Interactive wizard
+node tools/project-init.js my-new-project
+
+# Or run in current directory
+node tools/project-init.js
+```
+
+**What It Captures:**
+- Project type (web app, API, CLI, microservice, etc.)
+- Language/framework (Node.js, Python, Java, Go, etc.)
+- Architecture pattern (monolithic, microservices, serverless, etc.)
+- API endpoints and contracts
+- Database requirements and entities
+- Authentication/authorization needs
+- Deployment targets (Docker, Kubernetes, AWS, etc.)
+- Environment configuration
+
+**Output:**
+Creates complete project structure with:
+- `PROJECT-BLUEPRINT.md` - Comprehensive architecture document
+- `README.md` - Project documentation
+- `.env.example` - Environment variable template
+- `Dockerfile` and `docker-compose.yml` (if Docker selected)
+- `.github/workflows/` - CI/CD configuration (if GitHub Actions selected)
+- `.gitignore` - Appropriate ignore patterns
+- Standard directory structure (src/, tests/, docs/, config/)
+
+**Integration with Conductor:**
+The planning-subagent automatically reads `PROJECT-BLUEPRINT.md` when creating plans, ensuring all implementation follows the established architecture.
+
+### 2. 🎨 Blueprint Generator (`blueprint-generator.js`)
 
 Automatically generates project architecture diagrams by analyzing your codebase.
 
