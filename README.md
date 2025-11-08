@@ -37,14 +37,14 @@ The system solves a critical challenge in AI-assisted development: maintaining c
 
 ## Architecture Overview
 
-The Orchestra system consists of four specialized agents:
+The Orchestra system consists of five specialized agents:
 
 ### Conductor Agent
 - `Conductor.agent.md` - Main orchestration agent that manages the complete development cycle.
-    - Coordinates Planning, Implementation, and Code Review subagents.
+    - Coordinates Planning, Implementation, Code Review, and Quality Assurance subagents.
     - Generates the plan to be followed.
     - Handles user interactions and mandatory pause points.
-    - Enforces the Planning → Implementation → Review → Commit cycle.
+    - Enforces the Planning → Implementation → Review → QA → Commit cycle.
     - Uses Claude Sonnet 4.5 by default.
 
 ### Planning Subagent
@@ -62,10 +62,19 @@ The Orchestra system consists of four specialized agents:
     - Uses Claude Haiku 4.5 by default for premium request efficiency.
 
 ### Code Review Subagent
-- **`code-review-subagent.agent.md`** - Quality assurance specialist.
+- **`code-review-subagent.agent.md`** - Code review specialist.
     - Reviews uncommitted code changes using git to identify new code.
     - Validates test coverage and code quality.
     - Returns review results back to Conductor (`APPROVED/NEEDS_REVISION/FAILED`).
+    - Uses Claude Sonnet 4.5 by default.
+
+### Quality Assurance Subagent
+- **`quality-assurance-subagent.agent.md`** - Quality assurance and security specialist.
+    - Validates code quality (linting, formatting, style).
+    - Checks for security vulnerabilities.
+    - Analyzes test coverage metrics.
+    - Assesses performance implications.
+    - Returns QA results back to Conductor (`PASS/ADVISORY/FAIL`).
     - Uses Claude Sonnet 4.5 by default.
 
 ## Prerequisites
