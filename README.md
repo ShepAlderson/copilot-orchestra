@@ -2,6 +2,16 @@
 
 > **A multi-agent orchestration system for structured, test-driven software development with AI assistance**
 
+## 📚 Documentation
+
+- **[Quick Start Guide](QUICKSTART.md)** - Get up and running in 5 minutes
+- **[Troubleshooting](TROUBLESHOOTING.md)** - Common issues and solutions
+- **[Examples](examples/)** - Real-world usage examples
+- **[Templates](templates/)** - Custom agent configurations
+- **[Contributing](CONTRIBUTING.md)** - How to contribute
+- **[Changelog](CHANGELOG.md)** - Version history and updates
+- **[Improvements](IMPROVEMENTS.md)** - Planned features and enhancements
+
 ## What is GitHub Copilot Orchestra?
 
 The "GitHub Copilot Orchestra" pattern transformed how I build with AI agents. Instead of juggling context and constantly switching modes, the Orchestra pattern provides a structured workflow that coordinates specialized AI subagents through a complete AI development cycle for adding a feature or making a change: planning → implementation → review → commit.
@@ -446,5 +456,33 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+## Additional Resources
+
+### Getting Help
+
+- 📖 **[Quick Start Guide](QUICKSTART.md)** - New to the system? Start here!
+- 🔧 **[Troubleshooting Guide](TROUBLESHOOTING.md)** - Encountering issues? Check here first
+- 💡 **[Examples Directory](examples/)** - Learn from real-world scenarios
+- 🎨 **[Templates](templates/)** - Customize agents for your needs
+
+### Community
+
+- 🐛 **Bug Reports**: [Open an issue](https://github.com/killo431/copilot-orchestra/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/killo431/copilot-orchestra/discussions)
+- 🤝 **Contributing**: See [CONTRIBUTING.md](CONTRIBUTING.md)
+- 📋 **Roadmap**: Check [IMPROVEMENTS.md](IMPROVEMENTS.md) for planned features
+
+### Version Information
+
+- 📝 **[Changelog](CHANGELOG.md)** - Track updates and changes
+- 🏷️ **Current Version**: 1.0.0
+- 🔄 **Update Frequency**: Regular improvements based on community feedback
+
+### Related Projects
+
+Interested in AI-assisted development? Check out:
+- [GitHub Copilot](https://github.com/features/copilot) - AI pair programmer
+- [VS Code Insiders](https://code.visualstudio.com/insiders/) - Early access to VS Code features
 
 ---

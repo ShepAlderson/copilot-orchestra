@@ -1,0 +1,67 @@
+# GitHub Copilot Orchestra - .gitignore template
+
+# Plans directory - uncomment if you don't want to commit plan files
+# plans/
+
+# But keep the directory structure
+# !plans/.gitkeep
+
+# Temporary files
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Desktop.ini
+
+# Node modules (if you have examples with dependencies)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+
+# Test coverage
+coverage/
+.coverage
+*.cover
+.nyc_output
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+
+# Metrics (if using optional metrics tracking)
+metrics/*.json
+!metrics/.gitkeep
