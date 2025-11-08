@@ -4,13 +4,15 @@
 
 ## 📚 Documentation
 
-- **[Quick Start Guide](QUICKSTART.md)** - Get up and running in 5 minutes
-- **[Troubleshooting](TROUBLESHOOTING.md)** - Common issues and solutions
-- **[Examples](examples/)** - Real-world usage examples
-- **[Templates](templates/)** - Custom agent configurations
-- **[Contributing](CONTRIBUTING.md)** - How to contribute
-- **[Changelog](CHANGELOG.md)** - Version history and updates
-- **[Improvements](IMPROVEMENTS.md)** - Planned features and enhancements
+- **[Quick Start Guide](QUICKSTART.md)** - Get up and running in 5 minutes ⚡
+- **[Architecture & Workflow](ARCHITECTURE.md)** - Visual diagrams and detailed flow 📊
+- **[FAQ](FAQ.md)** - Frequently asked questions ❓
+- **[Troubleshooting](TROUBLESHOOTING.md)** - Common issues and solutions 🔧
+- **[Examples](examples/)** - Real-world usage examples 💡
+- **[Templates](templates/)** - Custom agent configurations 🎨
+- **[Contributing](CONTRIBUTING.md)** - How to contribute 🤝
+- **[Changelog](CHANGELOG.md)** - Version history and updates 📝
+- **[Improvements](IMPROVEMENTS.md)** - Planned features and enhancements 🚀
 
 ## What is GitHub Copilot Orchestra?
 
