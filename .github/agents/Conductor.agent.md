@@ -42,16 +42,28 @@ For each phase in the plan, execute this cycle:
    - Instruction to verify tests pass and code follows best practices
 
 2. Analyze review feedback:
-   - **If APPROVED**: Proceed to commit step
+   - **If APPROVED**: Proceed to quality assurance step
    - **If NEEDS_REVISION**: Return to 2A with specific revision requirements
    - **If FAILED**: Stop and consult user for guidance
 
-### 2C. Return to User for Commit
+### 2C. Quality Assurance Check
+1. Use #runSubagent to invoke the quality-assurance-subagent with:
+   - The phase objective
+   - Files that were modified/created
+   - Instruction to validate code quality, security, test coverage, and performance
+
+2. Analyze QA report:
+   - **If PASS**: Proceed to commit step
+   - **If ADVISORY**: Proceed to commit step but note warnings in phase summary
+   - **If FAIL**: Return to 2A with specific issues to fix
+
+### 2D. Return to User for Commit
 1. **Pause and Present Summary**:
    - Phase number and objective
    - What was accomplished
    - Files/functions created/changed
    - Review status (approved/issues addressed)
+   - QA status (pass/advisory/warnings)
 
 2. **Write Phase Completion File**: Create `plans/<task-name>-phase-<N>-complete.md` following <phase_complete_style_guide>.
 
@@ -62,7 +74,7 @@ For each phase in the plan, execute this cycle:
    - Confirm readiness to proceed to next phase
    - Request changes or abort
 
-### 2D. Continue or Complete
+### 2E. Continue or Complete
 - If more phases remain: Return to step 2A for next phase
 - If all phases complete: Proceed to Phase 3
 
@@ -154,6 +166,9 @@ File name: `<plan-name>-phase-<phase-number>-complete.md` (use kebab-case)
 ...
 
 **Review Status:** {APPROVED / APPROVED with minor recommendations}
+
+**QA Status:** {PASS / ADVISORY / FAIL}
+{Include any QA warnings or notes if ADVISORY}
 
 **Git Commit Message:**
 {Git commit message following <git_commit_style_guide>}

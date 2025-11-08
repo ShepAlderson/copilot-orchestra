@@ -734,8 +734,8 @@ The Quality Assurance system provides automated, comprehensive quality checks be
 - ⚡ Provides immediate feedback during development
 
 **Getting Started:**
-1. Ensure `quality-assurance-subagent.agent.md` is in your repository
-2. Update `Conductor.agent.md` to include QA phase
+1. Ensure `quality-assurance-subagent.agent.md` is in your `.github/agents/` directory
+2. The updated `Conductor.agent.md` already includes QA phase
 3. Configure project linting and testing tools
 4. Run a test implementation phase and review QA report
 5. Adjust quality standards in `.qa-config.json` as needed

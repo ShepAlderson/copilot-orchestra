@@ -153,15 +153,17 @@ This wizard will help you set up GitHub Copilot Orchestra in your project.
       'Conductor.agent.md',
       'planning-subagent.agent.md',
       'implement-subagent.agent.md',
-      'code-review-subagent.agent.md'
+      'code-review-subagent.agent.md',
+      'quality-assurance-subagent.agent.md'
     ];
     
+    const agentsDir = path.join(this.rootDir, '.github', 'agents');
     const existing = agentFiles.filter(file =>
-      fs.existsSync(path.join(this.rootDir, file))
+      fs.existsSync(path.join(agentsDir, file))
     );
     
-    if (existing.length === 4) {
-      console.log('✅ All agent files already present');
+    if (existing.length === 5) {
+      console.log('✅ All agent files already present in .github/agents/');
       console.log('');
       return;
     }
@@ -177,7 +179,7 @@ This wizard will help you set up GitHub Copilot Orchestra in your project.
     if (choice === '1') {
       console.log('\nTo copy agent files:');
       console.log('1. Clone: git clone https://github.com/killo431/copilot-orchestra.git');
-      console.log('2. Copy .agent.md files to your project root');
+      console.log('2. Copy agent files: cp -r copilot-orchestra/.github/agents /path/to/your/project/.github/');
       console.log('');
       await this.prompt('Press Enter when done...');
     } else if (choice === '2') {

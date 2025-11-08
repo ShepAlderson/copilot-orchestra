@@ -14,26 +14,43 @@ Before starting, ensure you have:
 
 ### Step 1: Install Agent Files (2 minutes)
 
-**Option A: Quick Install (Copy to Project)**
+**Option A: Import Workspace (Easiest - Recommended)**
+```bash
+# Clone the repository
+git clone https://github.com/killo431/copilot-orchestra.git
+
+# Open the workspace in VS Code Insiders
+cd copilot-orchestra
+code-insiders copilot-orchestra.code-workspace
+```
+
+This imports the complete setup including:
+- All agent files (from `.github/agents/`)
+- VS Code settings and configurations
+- Recommended extensions
+- Debug launch configurations
+
+**Option B: Quick Install (Copy to Project)**
 ```bash
 # Clone the repository
 git clone https://github.com/killo431/copilot-orchestra.git
 
 # Copy agent files to your project
-cp copilot-orchestra/*.agent.md /path/to/your/project/
+cp -r copilot-orchestra/.github/agents /path/to/your/project/.github/
 ```
 
-**Option B: Global Install (Use in All Projects)**
+**Option C: Global Install (Use in All Projects)**
 
 1. Open VS Code Insiders
 2. Click the chat mode dropdown in Copilot Chat
 3. Select "Configure Custom Agents"
 4. Choose "User Data" location
-5. Create each agent file and paste content from:
+5. Create each agent file and paste content from `.github/agents/`:
    - `Conductor.agent.md`
    - `planning-subagent.agent.md`
    - `implement-subagent.agent.md`
    - `code-review-subagent.agent.md`
+   - `quality-assurance-subagent.agent.md`
 
 ### Step 2: Create Plans Directory (30 seconds)
 
