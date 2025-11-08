@@ -56,10 +56,11 @@ Yes! The Orchestra works great with existing projects. The planning-subagent wil
 ### Do I need to commit the agent files to my repository?
 
 You have options:
-- **Project-specific**: Keep `.agent.md` files in repo to share with team
+- **Project-specific**: Keep `.github/agents/` directory in repo to share with team (recommended)
+- **Backward compatibility**: Root-level `.agent.md` files (deprecated, use `.github/agents/` instead)
 - **Global**: Install in User Data directory for personal use across all projects
 
-There's no requirement either way.
+There's no requirement either way. For team collaboration, committing `.github/agents/` is recommended.
 
 ### Should I commit the plans/ directory?
 

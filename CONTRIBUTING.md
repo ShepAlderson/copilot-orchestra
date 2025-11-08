@@ -171,7 +171,8 @@ templates/
    - Download from: https://code.visualstudio.com/insiders/
 
 3. **Set up agents locally**
-   - Copy `.agent.md` files to your test project
+   - Use the workspace file: `code-insiders copilot-orchestra.code-workspace`
+   - Or copy `.github/agents/` directory to your test project
    - Or install globally for testing
 
 4. **Create a test branch**

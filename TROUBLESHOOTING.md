@@ -33,11 +33,12 @@ This guide covers common issues you might encounter while using GitHub Copilot O
    - Download latest from: https://code.visualstudio.com/insiders/
 
 2. **Check agent file location**
-   - **Project scope:** Files must be in project root directory
+   - **Project scope:** Files must be in `.github/agents/` directory (recommended) or project root
    - **Global scope:** Files must be in User Data prompts directory
      - Mac: `~/Library/Application Support/Code - Insiders/User/prompts/`
      - Windows: `%APPDATA%\Code - Insiders\User\prompts\`
      - Linux: `~/.config/Code - Insiders/User/prompts/`
+   - **Workspace import:** Use `copilot-orchestra.code-workspace` file for automatic setup
 
 3. **Verify file naming**
    - Files must end with `.agent.md`
@@ -46,6 +47,7 @@ This guide covers common issues you might encounter while using GitHub Copilot O
      - `planning-subagent.agent.md`
      - `implement-subagent.agent.md`
      - `code-review-subagent.agent.md`
+     - `quality-assurance-subagent.agent.md`
 
 4. **Restart VS Code Insiders**
    - Completely quit and restart (not just reload window)
@@ -132,7 +134,8 @@ This guide covers common issues you might encounter while using GitHub Copilot O
 **Solutions:**
 
 1. **Verify all agent files installed**
-   - Need all 4 files: Conductor + 3 subagents
+   - Need all 5 files: Conductor + 4 subagents
+   - Check in `.github/agents/` directory or project root
    - Check spelling and capitalization exactly match
 
 2. **Check subagent naming**
@@ -140,6 +143,7 @@ This guide covers common issues you might encounter while using GitHub Copilot O
      - `planning-subagent`
      - `implement-subagent`
      - `code-review-subagent`
+     - `quality-assurance-subagent`
    - Names are case-sensitive
 
 3. **Restart VS Code**
