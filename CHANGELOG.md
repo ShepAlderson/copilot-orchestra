@@ -8,6 +8,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `.roo` configuration directory with mode-based rules for all agents
+- `rules-Conductor/` with strict-mode and rapid-mode configurations
+- `rules-planning-subagent/` with deep-research-mode configuration
+- `rules-implement-subagent/` with strict-tdd-mode configuration
+- `rules-code-review-subagent/` with security-focused-mode configuration
+- `rules-quality-assurance-subagent/` rules directory
+- Local RAG system using LlamaIndex, Ollama, and Qdrant
+- Docker-based RAG deployment with FastAPI backend
+- RAG API endpoints for document ingestion and querying
+- Example mode configuration files demonstrating best practices
+- Comprehensive documentation for .roo configuration system
+- Architecture diagrams for RAG system and mode configurations
 - Comprehensive improvements analysis document (IMPROVEMENTS.md)
 - Quick start guide for new users (QUICKSTART.md)
 - Detailed troubleshooting guide (TROUBLESHOOTING.md)

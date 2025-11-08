@@ -1,0 +1,28 @@
+# Environment variables
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Docker volumes
+qdrant_storage/
+ollama_data/
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
