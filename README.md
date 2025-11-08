@@ -10,6 +10,8 @@
 - **[Troubleshooting](TROUBLESHOOTING.md)** - Common issues and solutions 🔧
 - **[Examples](examples/)** - Real-world usage examples 💡
 - **[Templates](templates/)** - Custom agent configurations 🎨
+- **[Integration Guides](integrations/)** - Framework-specific guides 🔌
+- **[Tools](tools/)** - Automation scripts and utilities 🛠️
 - **[Contributing](CONTRIBUTING.md)** - How to contribute 🤝
 - **[Changelog](CHANGELOG.md)** - Version history and updates 📝
 - **[Improvements](IMPROVEMENTS.md)** - Planned features and enhancements 🚀
@@ -28,6 +30,9 @@ The system solves a critical challenge in AI-assisted development: maintaining c
 - **📋 Documentation Trail** - Comprehensive plan files and phase completion records create an audit trail for reviewing all work completed.
 - **⏸️ Mandatory Pause Points** - Built-in stops for plan approval and phase commits keep you in control of the development process.
 - **🔄 Iterative Cycles** - Each implementation phase follows the complete cycle: implement → review → commit before proceeding to the next phase.
+- **💎 Keeps Context Concise** - The majority of the work is done in dedicated subagents, each with its own context window and dedicated prompt. This helps reduce hallucinations as the context window fills up.
+- **🛠️ Automation Tools** - Built-in tools for setup, error recovery, and architecture documentation.
+- **🔌 Framework Integration** - Pre-built guides for top 10 frameworks (React, Django, Node.js, etc.).
 - **💎 Keeps Context Concise** - The majority of the work is done in dedicated subagents, each with its own context window and dedciated prompt. This helps reduce hallucinations as the context window fills up.
 
 ## Architecture Overview
@@ -145,6 +150,25 @@ The GitHub Copilot Orchestra uses custom chat modes in VSCode Insiders to enable
         - Final task completion summaries (`<task-name>-complete.md`)
 
 **No Additional Configuration Required** - The agents will appear in the GitHub Copilot Chat interface automatically.
+
+### Quick Setup with Tools
+
+For an automated setup experience, use the included Setup Wizard:
+
+```bash
+# Interactive setup wizard
+node tools/setup-wizard.js
+```
+
+This wizard will:
+- Detect your project type
+- Check prerequisites
+- Set up directories
+- Configure testing
+- Create documentation
+- Run health checks
+
+See [Tools Documentation](tools/README.md) for more automation options.
 
 ## Using the Conductor Agent
 
