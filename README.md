@@ -20,26 +20,38 @@ The system solves a critical challenge in AI-assisted development: maintaining c
 
 ## Architecture Overview
 
-The Orchestra system consists of four specialized agents:
+The Orchestra system consists of five specialized agents:
 
 ### Conductor Agent
 - `Conductor.agent.md` - Main orchestration agent that manages the complete development cycle.
-    - Coordinates Planning, Implementation, and Code Review subagents.
+    - Coordinates Designer, Planning, Implementation, and Code Review subagents.
     - Generates the plan to be followed.
     - Handles user interactions and mandatory pause points.
-    - Enforces the Planning → Implementation → Review → Commit cycle.
+    - Enforces the Design (when needed) → Planning → Implementation → Review → Commit cycle.
+    - Uses Claude Sonnet 4.5 by default.
+
+### Designer Subagent
+- **`designer-subagent.agent.md`** - UI/UX design specialist.
+    - Analyzes UI/UX requirements from user requests.
+    - Researches existing UI frameworks in the project or user-suggested frameworks.
+    - Creates comprehensive design briefs in JSONC format.
+    - Provides design guidance (colors, typography, components, layouts, interactions).
+    - Does NOT implement code - only provides design specifications.
+    - Avoids gradients and emoji unless explicitly requested.
     - Uses Claude Sonnet 4.5 by default.
 
 ### Planning Subagent
 - **`planning-subagent.agent.md`** - Research and context gathering specialist.
     - Analyzes codebase structure and patterns.
     - Identifies relevant files and functions.
+    - References design briefs when available.
     - Returns structured findings to inform plan creation.
     - Uses Claude Sonnet 4.5 by default.
 
 ### Implementation Subagent
 - **`implement-subagent.agent.md`** - Implementation specialist following TDD conventions.
     - Executes individual phases of the development plan.
+    - Follows design brief guidance for UI/UX implementations.
     - Writes failing tests first, then minimal code to pass.
     - Works autonomously within phase boundaries.
     - Uses Claude Haiku 4.5 by default for premium request efficiency.
@@ -94,8 +106,9 @@ The GitHub Copilot Orchestra uses custom chat modes in VSCode Insiders to enable
     code-insiders .
     ```
 
-2. **Locate Agent Files** - The repository includes four `.agent.md` files in the root directory:
+2. **Locate Agent Files** - The repository includes five `.agent.md` files in the root directory:
     - `Conductor.agent.md`
+    - `designer-subagent.agent.md`
     - `planning-subagent.agent.md`
     - `implement-subagent.agent.md`
     - `code-review-subagent.agent.md`
@@ -116,6 +129,7 @@ The GitHub Copilot Orchestra uses custom chat modes in VSCode Insiders to enable
             - Select "User Data"
             - Type the name of the file you're setting up. i.e.:
                 - Conductor
+                - designer-subagent
                 - planning-subagent
                 - implement-subagent
                 - code-review-subagent
@@ -145,17 +159,29 @@ Once setup is complete, you can start using the Conductor agent:
 
 ## How It Works
 
-The Conductor agent follows a strict four-stage cycle for every development task:
+The Conductor agent follows a strict multi-stage cycle for every development task. For UI/UX work, it includes a design phase:
+
+### 0. Design Phase (when UI/UX work is detected)
+- **UI/UX Detection** - `Conductor` analyzes the request for UI/UX requirements (new pages, components, layouts, styling, user interactions).
+- **Design Brief Creation** - `Conductor` invokes the `designer-subagent` to:
+    - Research existing UI frameworks in the project (Bootstrap, Tailwind, Material UI, etc.).
+    - Analyze the user's design preferences or use suggested frameworks.
+    - Create a comprehensive design brief in JSONC format.
+- **Design Documentation** - Design brief is saved to `plans/<task-name>/<task-name>-design-brief.jsonc`.
+- **Design Guidance** - The brief includes colors, typography, spacing, component structures, layouts, interactions, and accessibility considerations.
+- **No Code Changes** - Designer provides specifications only; implementation happens in later phases.
 
 ### 1. Planning Phase
 - **User Request** - You describe what you want to build or change.
 - **Delegates Research** - `Conductor` invokes the `planning-subagent` to gather comprehensive context about your codebase.
-- **Plan Creation** - `Conductor` drafts a multi-phase plan (typically 3-10 phases) with specific objectives, files to modify, and tests to write.
+- **Design Brief Reference** - If a design brief exists, `planning-subagent` includes it in research findings.
+- **Plan Creation** - `Conductor` drafts a multi-phase plan (typically 3-10 phases) with specific objectives, files to modify, and tests to write. References design brief if applicable.
 - **Plan Approval** - `Conductor` stops, allowing you review and approve the plan before any implementation begins.
-- **Plan Documentation** - Approved plan is saved to `plans/<task-name>-plan.md`.
+- **Plan Documentation** - Approved plan is saved to `plans/<task-name>/<task-name>-plan.md`.
 
 ### 2. Implementation Phase (repeated per plan phase)
 - **Delegates Implementation** - `Conductor` invokes the `implement-subagent` with the specific phase objective and requirements.
+- **Design Brief Reference** - If a design brief exists, `implement-subagent` follows its guidance for UI/UX work (framework classes, colors, typography, component structures).
 - **TDD Execution** - `implement-subagent` follows strict Test-Driven Development:
     - Writes failing tests first.
     - Run tests to confirm they fail.
@@ -190,18 +216,25 @@ The Conductor agent follows a strict four-stage cycle for every development task
 sequenceDiagram
     participant User
     participant Conductor
+    participant Designer
     participant Planning
     participant Implement
     participant Review
 
     User->>Conductor: Request feature/change
-    Conductor->>Planning: Gather context
+    
+    opt UI/UX work detected
+        Conductor->>Designer: Create design brief
+        Designer-->>Conductor: Return design brief
+    end
+    
+    Conductor->>Planning: Gather context (with design brief if exists)
     Planning-->>Conductor: Return findings
     Conductor->>User: Present plan
     User-->>Conductor: Approve plan
     
     loop For each phase
-        Conductor->>Implement: Execute phase (TDD)
+        Conductor->>Implement: Execute phase (TDD, follow design brief if exists)
         Implement-->>Conductor: Report completion
         Conductor->>Review: Review implementation
         Review-->>Conductor: Return status
@@ -285,11 +318,89 @@ Each phase follows: **Implementation → Review → Commit** cycle.
 - `Conductor` generates `plans/user-authentication-complete.md` with a full summary of what was accomplished.
 - Your feature is fully tested, reviewed, and committed in logical increments.
 
+---
+
+### Scenario: Building a Responsive User Dashboard (UI/UX Work)
+
+**Initial Request:**
+```
+Create a responsive user dashboard for our React app with a sidebar navigation, 
+statistics cards, and a data table. Use our existing Tailwind CSS setup and 
+follow modern dashboard design patterns.
+```
+
+**0. Design Phase**
+- `Conductor` detects UI/UX requirements and invokes `designer-subagent`.
+- `designer-subagent`:
+    - Searches project for Tailwind CSS configuration and existing components.
+    - Identifies current color palette and component patterns.
+    - Creates comprehensive design brief with:
+        - Layout structure (sidebar + main content area).
+        - Color scheme matching existing Tailwind theme.
+        - Typography specifications for headings, body text, and data display.
+        - Component designs for sidebar nav, stat cards, and data table.
+        - Responsive breakpoints and mobile behavior.
+        - Accessibility requirements (ARIA labels, keyboard navigation).
+- Design brief saved to `plans/user-dashboard/user-dashboard-design-brief.jsonc`.
+
+**1. Planning Phase**
+- `Conductor` invokes `planning-subagent` with design brief reference.
+- `planning-subagent` analyzes existing React component structure and routing.
+- `Conductor` creates a 4-phase plan:
+    1. Dashboard layout component with responsive sidebar.
+    2. Statistics card component with data visualization.
+    3. Data table component with sorting and filtering.
+    4. Integration and responsive behavior tests.
+- Plan includes reference to design brief: `plans/user-dashboard/user-dashboard-design-brief.jsonc`.
+
+**2. You review and approve the plan**
+
+**3. Implementation \u2192 Review \u2192 Commit Cycle - Phase 1**
+- `Conductor` invokes `implement-subagent` for \"Dashboard layout with sidebar\".
+- `implement-subagent`:
+    - Reads design brief for layout specifications, Tailwind classes, and responsive breakpoints.
+    - Writes failing tests for Dashboard and Sidebar components.
+    - Implements components following design brief's structure and styling.
+    - Uses exact Tailwind classes specified in design brief.
+    - Implements responsive behavior per design brief breakpoints.
+    - Tests pass, linting applied.
+- `Conductor` invokes `code-review-subagent`.
+- `code-review-agent` verifies implementation matches design brief specifications and returns `APPROVED`.
+- `Conductor` presents summary and commit message.
+- **You make the commit and tell `Conductor` to continue**.
+
+**4. Remaining Phases**
+The cycle repeats for:
+- Phase 2: Statistics cards with data visualization.
+- Phase 3: Data table with sorting/filtering.
+- Phase 4: Integration and responsive tests.
+
+Each phase references the design brief for consistent styling and behavior.
+
+**5. Completion**
+- All phases complete with consistent, framework-aligned UI.
+- Design brief ensured visual consistency across all components.
+- Dashboard is fully responsive, accessible, and tested.
+
 ## Generated Artifacts
 
 The Orchestra system creates documentation files to track progress and provide an audit trail. You may want to add your `plans` directory to your `.gitignore` if you don't want to commit them, or you can commit them as a historical record. If you do this, maybe move the plans that have been completed to `plans/archived`, just to keep things tidy
 
-### Plan File: `plans/<task-name>-plan.md`
+### Design Brief: `plans/<task-name>/<task-name>-design-brief.jsonc`
+Created when UI/UX work is detected, before the planning phase. It contains:
+- Overview of the design approach.
+- UI framework details (name, version, documentation).
+- Color palette (primary, secondary, accent, background, text).
+- Typography specifications (headings, body text, sizes).
+- Spacing system and layout guidelines.
+- Component specifications (structure, styling, states, responsive behavior, accessibility).
+- Interaction patterns and user feedback.
+- Design constraints and implementation notes.
+- Referenced by planning-subagent and implement-subagent during execution.
+
+**Example:** `plans/user-dashboard/user-dashboard-design-brief.jsonc`
+
+### Plan File: `plans/<task-name>/<task-name>-plan.md`
 Created after the user approves the plan. It contains:
 - Task overview and objectives.
 - Complete phase breakdown with steps.
@@ -337,6 +448,15 @@ Created when all phases are done, contains:
     - Good: "Add JWT auth to my Express API using the existing PostgreSQL database. You can use the dev database connection string in the `.env-dev` file."
     - Less ideal: "Add authentication."
 
+- **For UI/UX Work, Specify Framework Preferences** - Help the designer subagent by mentioning frameworks or design approaches.
+    - Good: "Create a dashboard using our existing Tailwind CSS setup with a modern, clean design."
+    - Good: "Build a login form using Bootstrap 5 with Material Design principles."
+    - Less ideal: "Make a dashboard that looks nice."
+
+- **Attach Existing Design Assets** - If you have mockups, style guides, or design systems, attach them or reference them in your request.
+    - "Follow the design in mockup.png I'm attaching."
+    - "Use colors from our design system at src/design-system.ts."
+
 - **Review Plans Carefully** - The planning phase is your chance to guide the implementation.
     - Check that phases are appropriately scoped.
     - Verify test requirements align with your standards.
@@ -347,6 +467,27 @@ Created when all phases are done, contains:
     - Smaller commits are easier to review and revert if needed.
     - Creates a clear history of feature development.
     - The `code-review-agent` looks for uncommitted code as a basis for what to review.
+
+### Working with UI/UX Design
+
+- **Let the Designer Research Frameworks** - The `designer-subagent` will automatically detect frameworks in your project.
+    - It searches for Bootstrap, Tailwind, Material UI, and other common frameworks.
+    - Mentions specific frameworks if you have preferences: "Use Material UI for this feature."
+    - It will leverage existing design patterns in your codebase for consistency.
+
+- **Design Briefs are Reference Documents** - The JSONC design brief guides all implementation phases.
+    - Review the design brief after it's created to ensure it matches your vision.
+    - The `implement-subagent` will reference it for colors, typography, spacing, and component structure.
+    - Consistent styling across all phases without repetitive instructions.
+
+- **No Gradients or Emoji by Default** - The designer follows clean, professional design principles.
+    - If you want gradients, animations, or emoji, explicitly request them in your initial prompt.
+    - Example: "Use gradient backgrounds for the hero section."
+
+- **Accessibility is Built-In** - Design briefs include accessibility specifications.
+    - ARIA labels and keyboard navigation are part of component designs.
+    - Color contrast ratios are considered in palette selection.
+    - Screen reader compatibility is documented.
 
 ### Maximizing Quality
 
@@ -375,6 +516,7 @@ Created when all phases are done, contains:
     - Call out any constraints or requirements upfront.
 
 - **Use the Right Model** - The default agent configurations are optimized for a cost/quality balance.
+    - Designer: Claude Sonnet 4.5 (comprehensive UI framework research and design brief creation)
     - Planning: Claude Sonnet 4.5 (project overview and collecting data for the plan)
     - Implementation: Claude Haiku 4.5 (efficient implementation of tests and code)
     - Review: Claude Sonnet 4.5 (thorough analysis and code review)
@@ -417,11 +559,20 @@ You can create specialized subagents for your workflow:
 3. **Update Conductor** to invoke your new subagent where appropriate.
 4. **Test the integration** with a sample task.
 
-**Ideas for subagents:**
-- **deployment-subagent** - Specialized in deployment configurations.
-- **security-audit-subagent** - Focused on security analysis.
-- **performance-optimization-subagent** - Optimizes code performance.
-- **documentation-subagent** - Generates comprehensive documentation.
+**Example - The Designer Subagent:**
+The `designer-subagent` is a great example of extending the Orchestra system:
+- **Created for a specific need:** UI/UX design work requires different expertise than coding.
+- **Integrated into the workflow:** Conductor detects UI/UX requests and invokes designer first.
+- **Produces artifacts:** Design briefs in JSONC format that other agents reference.
+- **Does NOT write code:** Stays focused on its specialty (design specifications).
+- **Follows conventions:** Avoids gradients/emoji unless requested, researches frameworks first.
+
+**Other ideas for subagents:**
+- **deployment-subagent** - Specialized in deployment configurations and CI/CD pipelines.
+- **security-audit-subagent** - Focused on security analysis and vulnerability detection.
+- **performance-optimization-subagent** - Optimizes code performance and identifies bottlenecks.
+- **documentation-subagent** - Generates comprehensive documentation and API references.
+- **database-migration-subagent** - Handles database schema changes and data migrations.
 
 ## License
 
