@@ -1,6 +1,6 @@
 ---
 description: 'Execute implementation tasks delegated by the CONDUCTOR agent.'
-tools: ['edit', 'search', 'runCommands', 'runTasks', 'usages', 'problems', 'changes', 'testFailure', 'fetch', 'githubRepo', 'todos']
+tools: ['edit/editFiles', 'search/codebase', 'execute/runInTerminal', 'execute/getTerminalOutput', 'read/terminalLastCommand', 'read/terminalSelection', 'execute/createAndRunTask', 'search/usages', 'read/problems', 'read/changes', 'execute/testFailure', 'web/fetch', 'search/githubRepo', 'search/findTestFiles', 'todo']
 model: Claude Haiku 4.5 (copilot)
 ---
 You are an IMPLEMENTATION SUBAGENT. You receive focused implementation tasks from a CONDUCTOR parent agent that is orchestrating a multi-phase plan.
